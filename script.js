@@ -20,35 +20,54 @@ const DEFAULT_OFFER_DURATION_SECONDS = 14 * 60 + 20;
 
 const DEFAULT_VIP_BENEFITS = [
   {
+    id: "vip-days",
     title: "2 Special VIP Days",
     description: "Get 2 VIP-only sessions with direct strategy breakdowns and deeper playbooks.",
-    image: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=900&q=80"
+    image: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=900&q=80",
+    price: 299,
+    oldPrice: 699
   },
   {
+    id: "recordings",
     title: "Lifetime Recordings",
     description: "Rewatch all premium sessions anytime and turn notes into repeatable systems.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
+    price: 199,
+    oldPrice: 499
   },
   {
+    id: "zoom-room",
     title: "Zoom Room Access",
     description: "Join private Zoom rooms for live Q&A and implementation guidance.",
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=900&q=80"
+    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=900&q=80",
+    price: 149,
+    oldPrice: 399
   },
   {
+    id: "strategy-session",
     title: "1-on-1 Strategy Session",
     description: "Get tactical feedback tailored to your business and current growth stage.",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80"
+    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
+    price: 399,
+    oldPrice: 999
   },
   {
+    id: "ai-playbooks",
     title: "AI Playbook Bundle",
     description: "Ready-to-use AI workflows and templates to execute faster after the summit.",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80"
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80",
+    price: 249,
+    oldPrice: 599
   }
 ];
 
 // Add your real Razorpay payment links for each offer-state key.
 const DEFAULT_RAZORPAY_LINKS = {
-  "vip-upgrade": "https://rzp.io/l/vip-upgrade-placeholder"
+  "vip-days": "https://rzp.io/l/vip-days-placeholder",
+  "recordings": "https://rzp.io/l/recordings-placeholder",
+  "zoom-room": "https://rzp.io/l/zoom-room-placeholder",
+  "strategy-session": "https://rzp.io/l/strategy-session-placeholder",
+  "ai-playbooks": "https://rzp.io/l/ai-playbooks-placeholder"
 };
 
 const GOOGLE_SCRIPT_URL = WEBINAR_CONFIG.googleScriptUrl || DEFAULT_GOOGLE_SCRIPT_URL;
@@ -60,7 +79,6 @@ const RAZORPAY_LINKS = {
 const VIP_BENEFITS = WEBINAR_CONFIG.vipBenefits || DEFAULT_VIP_BENEFITS;
 const OFFER_DURATION_SECONDS = Number(WEBINAR_CONFIG.offerDurationSeconds || DEFAULT_OFFER_DURATION_SECONDS);
 
-const bumpInputs = [...document.querySelectorAll(".bump-offer")];
 const totalAmountEl = document.getElementById("totalAmount");
 const primaryCta = document.getElementById("primaryCta");
 const offerTimer = document.getElementById("offerTimer");
@@ -108,25 +126,59 @@ function renderVipBenefits() {
     return;
   }
 
+  const formatPrice = (value) => `₹${Number(value || 0)}`;
+
   vipBenefitsGrid.innerHTML = VIP_BENEFITS.map((benefit) => {
+    const id = String(benefit.id || "").trim();
     const title = String(benefit.title || "VIP Benefit");
     const description = String(benefit.description || "");
     const image = String(benefit.image || "");
+    const price = Number(benefit.price || 0);
+    const oldPrice = Number(benefit.oldPrice || 0);
+
+    if (!id) {
+      return "";
+    }
 
     return `
-      <article class="benefit-card">
+      <label class="benefit-card" data-benefit-card="${id}">
         <img src="${image}" alt="${title}" loading="lazy" />
         <div class="benefit-copy">
           <h3>${title}</h3>
           <p>${description}</p>
+
+          <div class="benefit-select-row">
+            <span class="benefit-check">
+              <input type="checkbox" class="bump-offer" data-id="${id}" data-price="${price}" />
+              Add this
+            </span>
+            <span class="benefit-prices">
+              <span class="benefit-price">${formatPrice(price)}</span>
+              <span class="benefit-old-price">${oldPrice > price ? formatPrice(oldPrice) : ""}</span>
+            </span>
+          </div>
         </div>
-      </article>
+      </label>
     `;
   }).join("");
 }
 
+function getBumpInputs() {
+  return [...document.querySelectorAll(".bump-offer")];
+}
+
+function syncSelectedBenefitStyles() {
+  getBumpInputs().forEach((input) => {
+    const card = input.closest(".benefit-card");
+    if (!card) {
+      return;
+    }
+    card.classList.toggle("selected", input.checked);
+  });
+}
+
 function getSelectedOffers() {
-  return bumpInputs
+  return getBumpInputs()
     .filter((input) => input.checked)
     .map((input) => ({
       id: input.dataset.id,
@@ -146,6 +198,7 @@ function updateSummary() {
   const total = offers.reduce((sum, offer) => sum + offer.price, 0);
 
   totalAmountEl.textContent = `₹${total}`;
+  syncSelectedBenefitStyles();
 
   if (total === 0) {
     primaryCta.textContent = "Join now ▶";
@@ -231,10 +284,10 @@ function handleCtaClick() {
   }
 
   const key = getOfferStateKey(offers);
-  const targetLink = RAZORPAY_LINKS[key];
+  const targetLink = RAZORPAY_LINKS[key] || (offers.length === 1 ? RAZORPAY_LINKS[offers[0].id] : "");
 
   if (isPlaceholderValue(targetLink)) {
-    alert("No Razorpay link is configured for this offer combination yet.");
+    alert("No Razorpay link is configured for this selected benefit set yet.");
     return;
   }
 
@@ -268,9 +321,17 @@ async function handleFormSubmit(event) {
   }
 }
 
-bumpInputs.forEach((input) => input.addEventListener("change", updateSummary));
 primaryCta.addEventListener("click", handleCtaClick);
 leadForm.addEventListener("submit", handleFormSubmit);
+
+if (vipBenefitsGrid) {
+  vipBenefitsGrid.addEventListener("change", (event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement && target.classList.contains("bump-offer")) {
+      updateSummary();
+    }
+  });
+}
 
 closeButtons.forEach((button) => {
   button.addEventListener("click", () => {
@@ -298,4 +359,5 @@ document.addEventListener("keydown", (event) => {
 
 updateSummary();
 renderVipBenefits();
+updateSummary();
 startOfferTimer();

@@ -217,9 +217,15 @@ h1 {
 .vip-row {
   border-color: var(--violet);
   background: var(--violet-bg);
+  grid-template-columns: 1fr;
+  padding: 14px;
 }
 
-.offer-row input {
+.vip-row .offer-copy {
+  max-width: 700px;
+}
+
+.offer-row > input {
   width: 17px;
   height: 17px;
   margin-top: 4px;
@@ -267,17 +273,31 @@ h1 {
 
 .benefits-grid {
   grid-column: 1 / -1;
-  margin-top: 10px;
+  margin-top: 14px;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
 }
 
 .benefit-card {
+  display: grid;
+  grid-template-rows: auto 1fr;
   background: #ffffff;
   border: 1px solid #e4e7f3;
   border-radius: 10px;
   overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.benefit-card:hover {
+  border-color: #c9cfff;
+  transform: translateY(-1px);
+}
+
+.benefit-card.selected {
+  border-color: var(--violet);
+  box-shadow: 0 10px 20px rgba(115, 70, 255, 0.16);
 }
 
 .benefit-card img {
@@ -289,6 +309,50 @@ h1 {
 
 .benefit-copy {
   padding: 7px;
+  display: grid;
+  align-content: start;
+}
+
+.benefit-select-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.benefit-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #5f6882;
+  font-size: 0.74rem;
+  font-weight: 700;
+}
+
+.benefit-check input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+.benefit-prices {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.benefit-price {
+  color: #4d28d8;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.benefit-old-price {
+  color: #b2b8c7;
+  font-size: 0.72rem;
+  text-decoration: line-through;
+  font-weight: 700;
 }
 
 .benefit-copy h3 {
@@ -448,6 +512,10 @@ select:focus {
 }
 
 @media (max-width: 900px) {
+  .offer-card {
+    width: min(780px, 100%);
+  }
+
   .benefits-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -466,6 +534,11 @@ select:focus {
     grid-template-columns: 22px 1fr;
   }
 
+  .vip-row {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
   .offer-price-block {
     grid-column: 2;
     justify-items: start;
@@ -480,6 +553,15 @@ select:focus {
     height: 180px;
   }
 
+  .summary-box {
+    font-size: 0.96rem;
+  }
+
+  .expiry-banner {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+
   .cta-button {
     width: 100%;
     min-width: 0;
@@ -488,5 +570,49 @@ select:focus {
   .form-grid,
   .phone-row {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-shell {
+    padding: 18px 8px;
+  }
+
+  .offer-card {
+    border-radius: 16px;
+    padding: 14px 10px;
+  }
+
+  h1 {
+    font-size: 1.35rem;
+  }
+
+  .hero-media img {
+    height: 190px;
+  }
+
+  .offer-title {
+    font-size: 0.98rem;
+  }
+
+  .offer-desc {
+    font-size: 0.8rem;
+  }
+
+  .benefit-card img {
+    height: 170px;
+  }
+
+  .benefit-copy h3 {
+    font-size: 0.86rem;
+  }
+
+  .benefit-copy p {
+    font-size: 0.76rem;
+  }
+
+  .cta-button {
+    font-size: 1.15rem;
+    padding: 12px 14px;
   }
 }
