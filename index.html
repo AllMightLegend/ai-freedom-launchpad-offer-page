@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Freedom Launchpad Offer Page</title>
+    <script>
+      (function ensureMgtShim() {
+        var root = typeof globalThis !== "undefined" ? globalThis : window;
+        var mgt = root.mgt || {};
+        if (typeof mgt.clearMarks !== "function") {
+          mgt.clearMarks = function clearMarks() {};
+        }
+        root.mgt = mgt;
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="offer-card">
+        <button type="button" class="close-icon" aria-label="Close">×</button>
+
+        <p class="vip-chip">Upgrade To VIP</p>
+
+        <h1>AI Freedom Launchpad 2026</h1>
+
+        <figure class="hero-media">
+          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Speaker preview for AI Business Summit" />
+          <span class="media-badge" aria-hidden="true">🔇</span>
+        </figure>
+
+        <p class="secure-text">Secure your spot - you are almost in</p>
+
+        <div class="stepper" aria-hidden="true">
+          <span class="step current">1</span>
+          <span class="step-label current">Offer</span>
+          <span class="step-line"></span>
+          <span class="step">2</span>
+          <span class="step-label">Details</span>
+        </div>
+
+        <div class="expiry-banner" aria-live="polite">
+          <span class="dot" aria-hidden="true"></span>
+          <span>Offer expires in</span>
+          <strong id="offerTimer">14:20</strong>
+        </div>
+
+        <section class="offers" aria-label="Offer options">
+          <h2>YOUR ORDER</h2>
+
+          <label class="offer-row free-row">
+            <input type="checkbox" checked disabled />
+            <span class="offer-copy">
+              <span class="offer-title">Event Access</span>
+              <span class="offer-desc">Full access to AI Business Summit 2026.</span>
+            </span>
+            <span class="offer-price-block">
+              <span class="offer-price free">FREE</span>
+              <span class="old-price">₹499</span>
+            </span>
+          </label>
+
+          <label class="offer-row vip-row">
+            <input type="checkbox" class="bump-offer" data-id="vip-upgrade" data-price="499" />
+            <span class="offer-copy">
+              <span class="offer-title">VIP Experience Upgrade</span>
+              <span class="offer-desc">5 exclusive VIP benefits - tap to secure full growth stack.</span>
+            </span>
+            <span class="offer-price-block">
+              <span class="offer-price">₹499</span>
+              <span class="old-price">₹999</span>
+            </span>
+
+            <div class="benefits-grid" id="vipBenefits"></div>
+          </label>
+        </section>
+
+        <section class="summary-box" aria-live="polite">
+          <p>Total</p>
+          <strong id="totalAmount">₹0</strong>
+        </section>
+
+        <button id="primaryCta" class="cta-button" type="button">Join now ▶</button>
+      </section>
+    </main>
+
+    <div id="formModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-overlay" data-close-modal="true"></div>
+
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
+        <button type="button" class="close-icon modal-close" aria-label="Close form">×</button>
+
+        <h2 id="modalHeading">Sign up today for free</h2>
+        <p class="modal-note">Fill the form to reserve your free masterclass seat.</p>
+
+        <form id="leadForm" novalidate>
+          <div class="form-grid">
+            <label>
+              <span>First name</span>
+              <input type="text" name="firstName" placeholder="First name" required />
+            </label>
+
+            <label>
+              <span>Last name</span>
+              <input type="text" name="lastName" placeholder="Last name" required />
+            </label>
+
+            <label class="full-width">
+              <span>Email</span>
+              <input type="email" name="email" placeholder="Enter your Email" required />
+            </label>
+
+            <label class="full-width phone-wrap">
+              <span>Phone number</span>
+              <div class="phone-row">
+                <select name="countryCode" aria-label="Country code">
+                  <option value="+91" selected>🇮🇳 +91</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+44">🇬🇧 +44</option>
+                  <option value="+61">🇦🇺 +61</option>
+                </select>
+                <input type="tel" name="phone" inputmode="numeric" placeholder="Phone number" minlength="8" maxlength="14" required />
+              </div>
+            </label>
+          </div>
+
+          <button id="formSubmitButton" class="cta-button" type="submit">Submit & Continue</button>
+          <p id="formStatus" class="status-text" aria-live="polite"></p>
+        </form>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
