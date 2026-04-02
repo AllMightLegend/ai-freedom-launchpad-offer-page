@@ -14,7 +14,7 @@ if (typeof self !== "undefined") {
   self.mgt = mgtRef;
 }
 
-const DEFAULT_GOOGLE_SCRIPT_URL = "PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+const DEFAULT_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBOeVVPIhq31My66TFqT_wqpAOiFsHXCRQcA2VVKv56i4xZ75ZV2wLOP79LkJejA5CzA/exec";
 const DEFAULT_THANK_YOU_URL = "https://lp.avikdas10x.com/thank-you";
 const DEFAULT_OFFER_DURATION_SECONDS = 14 * 60 + 20;
 
