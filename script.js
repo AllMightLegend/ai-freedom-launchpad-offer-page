@@ -63,11 +63,11 @@ const DEFAULT_VIP_BENEFITS = [
 
 // Add your real Razorpay payment links for each offer-state key.
 const DEFAULT_RAZORPAY_LINKS = {
-  "vip-days": "https://rzp.io/l/vip-days-placeholder",
-  "recordings": "https://rzp.io/l/recordings-placeholder",
-  "zoom-room": "https://rzp.io/l/zoom-room-placeholder",
-  "strategy-session": "https://rzp.io/l/strategy-session-placeholder",
-  "ai-playbooks": "https://rzp.io/l/ai-playbooks-placeholder"
+  "vip-days": "https://rzp.io/rzp/xehiD9Cx",
+  "recordings": "https://rzp.io/rzp/xehiD9Cx",
+  "zoom-room": "https://rzp.io/rzp/xehiD9Cx",
+  "strategy-session": "https://rzp.io/rzp/xehiD9Cx",
+  "ai-playbooks": "https://rzp.io/rzp/xehiD9Cx"
 };
 
 const GOOGLE_SCRIPT_URL = WEBINAR_CONFIG.googleScriptUrl || DEFAULT_GOOGLE_SCRIPT_URL;
@@ -284,7 +284,12 @@ function handleCtaClick() {
   }
 
   const key = getOfferStateKey(offers);
-  const targetLink = RAZORPAY_LINKS[key] || (offers.length === 1 ? RAZORPAY_LINKS[offers[0].id] : "");
+  const fallbackLink = WEBINAR_CONFIG.defaultRazorpayLink || WEBINAR_CONFIG.razorpayLink || "";
+  const targetLink = [
+    RAZORPAY_LINKS[key],
+    ...offers.map((offer) => RAZORPAY_LINKS[offer.id]),
+    fallbackLink
+  ].find((link) => !isPlaceholderValue(link));
 
   if (isPlaceholderValue(targetLink)) {
     alert("No Razorpay link is configured for this selected benefit set yet.");
