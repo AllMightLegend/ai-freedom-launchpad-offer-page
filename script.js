@@ -177,6 +177,12 @@ function updateSummary() {
   }
 }
 
+function syncOfferStateAfterRestore() {
+  // Browsers can restore checkbox state from bfcache after navigation.
+  // Recompute total/CTA so UI matches the restored bundle selection.
+  window.requestAnimationFrame(updateSummary);
+}
+
 function openModal() {
   formModal.classList.remove("hidden");
   formModal.setAttribute("aria-hidden", "false");
@@ -334,6 +340,14 @@ document.addEventListener("click", (event) => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !formModal.classList.contains("hidden")) {
     closeModal();
+  }
+});
+
+window.addEventListener("pageshow", syncOfferStateAfterRestore);
+
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible") {
+    syncOfferStateAfterRestore();
   }
 });
 
