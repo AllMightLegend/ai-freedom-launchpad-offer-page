@@ -64,11 +64,23 @@
             </span>
           </label>
 
-          <section class="offer-row vip-row" aria-label="VIP benefit add-ons">
-            <span class="offer-copy">
-              <span class="offer-title">VIP Benefits (Pick Any)</span>
-              <span class="offer-desc">Choose individual benefits below. Each benefit has a separate price.</span>
-            </span>
+          <section class="offer-row vip-row" aria-label="VIP bonus bundle">
+            <div class="vip-row-head">
+              <span class="offer-copy">
+                <span class="offer-title">VIP Bonus Bundle</span>
+                <span class="offer-desc">Unlock all bonuses below in one bundled offer.</span>
+              </span>
+
+              <label class="bundle-toggle">
+                <input type="checkbox" class="bump-offer" data-id="vip-bundle" data-price="199" />
+                <span>Add full bundle</span>
+              </label>
+
+              <span class="offer-price-block">
+                <span class="offer-price">₹199</span>
+                <span class="old-price">₹999</span>
+              </span>
+            </div>
 
             <div class="benefits-grid" id="vipBenefits"></div>
           </section>
