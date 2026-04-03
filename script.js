@@ -23,51 +23,37 @@ const DEFAULT_VIP_BENEFITS = [
     id: "vip-days",
     title: "2 Special VIP Days",
     description: "Get 2 VIP-only sessions with direct strategy breakdowns and deeper playbooks.",
-    image: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=900&q=80",
-    price: 299,
-    oldPrice: 699
+    image: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?auto=format&fit=crop&w=900&q=80"
   },
   {
     id: "recordings",
     title: "Lifetime Recordings",
     description: "Rewatch all premium sessions anytime and turn notes into repeatable systems.",
-    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
-    price: 199,
-    oldPrice: 499
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80"
   },
   {
     id: "zoom-room",
     title: "Zoom Room Access",
     description: "Join private Zoom rooms for live Q&A and implementation guidance.",
-    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=900&q=80",
-    price: 149,
-    oldPrice: 399
+    image: "https://images.unsplash.com/photo-1588196749597-9ff075ee6b5b?auto=format&fit=crop&w=900&q=80"
   },
   {
     id: "strategy-session",
     title: "1-on-1 Strategy Session",
     description: "Get tactical feedback tailored to your business and current growth stage.",
-    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
-    price: 399,
-    oldPrice: 999
+    image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80"
   },
   {
     id: "ai-playbooks",
     title: "AI Playbook Bundle",
     description: "Ready-to-use AI workflows and templates to execute faster after the summit.",
-    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80",
-    price: 249,
-    oldPrice: 599
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=900&q=80"
   }
 ];
 
 // Add your real Razorpay payment links for each offer-state key.
 const DEFAULT_RAZORPAY_LINKS = {
-  "vip-days": "https://rzp.io/rzp/xehiD9Cx",
-  "recordings": "https://rzp.io/rzp/xehiD9Cx",
-  "zoom-room": "https://rzp.io/rzp/xehiD9Cx",
-  "strategy-session": "https://rzp.io/rzp/xehiD9Cx",
-  "ai-playbooks": "https://rzp.io/rzp/xehiD9Cx"
+  "vip-bundle": "https://rzp.io/rzp/6wOpB3g"
 };
 
 const GOOGLE_SCRIPT_URL = WEBINAR_CONFIG.googleScriptUrl || DEFAULT_GOOGLE_SCRIPT_URL;
@@ -126,15 +112,11 @@ function renderVipBenefits() {
     return;
   }
 
-  const formatPrice = (value) => `₹${Number(value || 0)}`;
-
   vipBenefitsGrid.innerHTML = VIP_BENEFITS.map((benefit) => {
     const id = String(benefit.id || "").trim();
     const title = String(benefit.title || "VIP Benefit");
     const description = String(benefit.description || "");
     const image = String(benefit.image || "");
-    const price = Number(benefit.price || 0);
-    const oldPrice = Number(benefit.oldPrice || 0);
 
     if (!id) {
       return "";
@@ -146,17 +128,6 @@ function renderVipBenefits() {
         <div class="benefit-copy">
           <h3>${title}</h3>
           <p>${description}</p>
-
-          <div class="benefit-select-row">
-            <span class="benefit-check">
-              <input type="checkbox" class="bump-offer" data-id="${id}" data-price="${price}" />
-              Add this
-            </span>
-            <span class="benefit-prices">
-              <span class="benefit-price">${formatPrice(price)}</span>
-              <span class="benefit-old-price">${oldPrice > price ? formatPrice(oldPrice) : ""}</span>
-            </span>
-          </div>
         </div>
       </label>
     `;
@@ -168,12 +139,9 @@ function getBumpInputs() {
 }
 
 function syncSelectedBenefitStyles() {
-  getBumpInputs().forEach((input) => {
-    const card = input.closest(".benefit-card");
-    if (!card) {
-      return;
-    }
-    card.classList.toggle("selected", input.checked);
+  const bundleSelected = getBumpInputs().some((input) => input.checked);
+  document.querySelectorAll(".benefit-card").forEach((card) => {
+    card.classList.toggle("selected", bundleSelected);
   });
 }
 
@@ -337,6 +305,13 @@ if (vipBenefitsGrid) {
     }
   });
 }
+
+document.addEventListener("change", (event) => {
+  const target = event.target;
+  if (target instanceof HTMLInputElement && target.classList.contains("bump-offer")) {
+    updateSummary();
+  }
+});
 
 closeButtons.forEach((button) => {
   button.addEventListener("click", () => {
