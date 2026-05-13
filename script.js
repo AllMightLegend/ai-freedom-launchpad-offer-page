@@ -13,7 +13,7 @@ if (typeof self !== "undefined") {
   self.mgt = mgtRef;
 }
 
-const DEFAULT_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxBOeVVPIhq31My66TFqT_wqpAOiFsHXCRQcA2VVKv56i4xZ75ZV2wLOP79LkJejA5CzA/exec";
+const DEFAULT_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwb8IT-nIQS_YAtYBLykix1Bbhm9WD5fB1ti0Qaj2531lK-j4s0qngPSq8kbE_fjUGQTQ/exec";
 const DEFAULT_THANK_YOU_URL = "https://lp.avikdas10x.com/thank-you";
 const DEFAULT_OFFER_DURATION_SECONDS = 14 * 60 + 20;
 
