@@ -16,26 +16,70 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true">
+      <span id="scrollProgressBar"></span>
+    </div>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <div class="bg-stage" aria-hidden="true">
+      <div class="mesh mesh-a"></div>
+      <div class="mesh mesh-b"></div>
+      <div class="mesh mesh-c"></div>
+      <div class="noise"></div>
+      <div class="grid-lines"></div>
+      <div class="light-beam beam-a"></div>
+      <div class="light-beam beam-b"></div>
+    </div>
+
     <main class="page-shell">
-      <section class="offer-card">
-        <button type="button" class="close-icon" aria-label="Close">×</button>
+      <section class="offer-card" id="offerCard">
+        <header class="offer-topbar reveal">
+          <p class="vip-chip">VIP Upgrade Window Open</p>
+          <button type="button" class="icon-button" id="infoBtn" aria-label="Open bonus details">
+            i
+          </button>
+        </header>
 
-        <p class="vip-chip">Upgrade To VIP</p>
+        <section class="hero reveal">
+          <div class="hero-copy">
+            <h1>AI Freedom Launchpad 2026</h1>
+            <p class="hero-subtext">A cinematic 2-day implementation sprint for builders who want AI leverage, revenue systems, and founder clarity in one focused experience.</p>
 
-        <h1>AI Freedom Launchpad 2026</h1>
+            <div class="hero-tags">
+              <span>Live Case Studies</span>
+              <span>Build Along Workflows</span>
+              <span>Founder Q and A</span>
+            </div>
+          </div>
 
-        <figure class="hero-media">
-          <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80" alt="Speaker preview for AI Business Summit" />
-          <span class="media-badge" aria-hidden="true">🔇</span>
-        </figure>
+          <figure class="hero-media tilt-card" data-tilt>
+            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80" alt="AI summit host presenting on stage" />
+            <figcaption>Masterclass Preview</figcaption>
+          </figure>
+        </section>
 
-        <p class="secure-text">Secure your spot - you are almost in</p>
+        <section class="proof-strip reveal" aria-label="Social proof">
+          <article class="proof-card">
+            <strong data-count="28421" id="countAttendees">0</strong>
+            <span>Founders Registered</span>
+          </article>
+          <article class="proof-card">
+            <strong data-count="96" id="countSatisfaction">0</strong>
+            <span>Percent Satisfaction</span>
+          </article>
+          <article class="proof-card">
+            <strong data-count="7" id="countCountries">0</strong>
+            <span>Countries Streaming Live</span>
+          </article>
+        </section>
 
-        <div class="stepper" aria-hidden="true">
+        <div class="stepper reveal" aria-hidden="true">
           <span class="step current">1</span>
           <span class="step-label current">Offer</span>
           <span class="step-line"></span>
@@ -43,20 +87,20 @@
           <span class="step-label">Details</span>
         </div>
 
-        <div class="expiry-banner" aria-live="polite">
+        <div class="expiry-banner reveal" aria-live="polite">
           <span class="dot" aria-hidden="true"></span>
-          <span>Offer expires in</span>
+          <span>Priority pricing expires in</span>
           <strong id="offerTimer">14:20</strong>
         </div>
 
-        <section class="offers" aria-label="Offer options">
-          <h2>YOUR ORDER</h2>
+        <section class="offers reveal" aria-label="Offer options">
+          <h2>Your Order</h2>
 
           <label class="offer-row free-row">
             <input type="checkbox" checked disabled />
             <span class="offer-copy">
-              <span class="offer-title">Event Access</span>
-              <span class="offer-desc">Full access to AI Business Summit 2026.</span>
+              <span class="offer-title">Summit Access Pass</span>
+              <span class="offer-desc">Live event access, recordings of main sessions, and implementation worksheets.</span>
             </span>
             <span class="offer-price-block">
               <span class="offer-price free">FREE</span>
@@ -68,12 +112,12 @@
             <div class="vip-row-head">
               <span class="offer-copy">
                 <span class="offer-title">VIP Bonus Bundle</span>
-                <span class="offer-desc">Unlock all bonuses below in one bundled offer.</span>
+                <span class="offer-desc">One click unlock for all bonus assets below at a single launch price.</span>
               </span>
 
               <label class="bundle-toggle">
                 <input type="checkbox" class="bump-offer" data-id="vip-bundle" data-price="199" />
-                <span>Add full bundle</span>
+                <span>Add bundle</span>
               </label>
 
               <span class="offer-price-block">
@@ -86,23 +130,39 @@
           </section>
         </section>
 
-        <section class="summary-box" aria-live="polite">
+        <section class="summary-box reveal" aria-live="polite">
           <p>Total</p>
           <strong id="totalAmount">₹0</strong>
         </section>
 
-        <button id="primaryCta" class="cta-button" type="button">Join now ▶</button>
+        <section class="lux-section reveal" aria-label="What you unlock">
+          <h2>What You Unlock Tonight</h2>
+          <div class="lux-grid">
+            <article class="lux-card">
+              <h3>Launch Sprint Blueprint</h3>
+              <p>A condensed roadmap to go from scattered ideas to a live AI offer in days, not months.</p>
+            </article>
+            <article class="lux-card">
+              <h3>Audience Monetization Framework</h3>
+              <p>Positioning and conversion sequence built for creators, coaches, and solo operators.</p>
+            </article>
+            <article class="lux-card">
+              <h3>Automation Stack Recipes</h3>
+              <p>Battle-tested prompt packs, tool chains, and execution checklists from real campaigns.</p>
+            </article>
+          </div>
+        </section>
+
+        <button id="primaryCta" class="cta-button magnetic reveal" type="button">Join for free</button>
       </section>
     </main>
 
     <div id="formModal" class="modal hidden" aria-hidden="true">
-      <div class="modal-overlay" data-close-modal="true"></div>
-
+      <div class="modal-overlay" data-close-modal="formModal"></div>
       <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
-        <button type="button" class="close-icon modal-close" aria-label="Close form">×</button>
-
-        <h2 id="modalHeading">Sign up today for free</h2>
-        <p class="modal-note">Fill the form to reserve your free masterclass seat.</p>
+        <button type="button" class="modal-close" data-close-modal="formModal" aria-label="Close form">×</button>
+        <h2 id="modalHeading">Reserve Your Free Spot</h2>
+        <p class="modal-note">Fill this in and we will send your private access details instantly.</p>
 
         <form id="leadForm" novalidate>
           <div class="form-grid">
@@ -118,26 +178,68 @@
 
             <label class="full-width">
               <span>Email</span>
-              <input type="email" name="email" placeholder="Enter your Email" required />
+              <input type="email" name="email" placeholder="Enter your email" required />
+            </label>
+
+            <label class="full-width">
+              <span>Profession</span>
+              <select name="profession" required>
+                <option value="" selected disabled>Select your profession</option>
+                <option value="IT/Software/Engineering">IT/Software/Engineering</option>
+                <option value="Non-Tech Professional">Non-Tech Professional</option>
+                <option value="Between Jobs">Between Jobs</option>
+                <option value="Student - Final Year">Student - Final Year</option>
+                <option value="Student - Earlier Years">Student - Earlier Years</option>
+                <option value="Business Owner">Business Owner</option>
+                <option value="Homemaker">Homemaker</option>
+              </select>
+            </label>
+
+            <label class="full-width">
+              <span>City</span>
+              <input type="text" name="city" placeholder="Enter your city" required />
             </label>
 
             <label class="full-width phone-wrap">
               <span>Phone number</span>
               <div class="phone-row">
                 <select name="countryCode" aria-label="Country code">
-                  <option value="+91" selected>🇮🇳 +91</option>
-                  <option value="+1">🇺🇸 +1</option>
-                  <option value="+44">🇬🇧 +44</option>
-                  <option value="+61">🇦🇺 +61</option>
+                  <option value="+91" selected>IN +91</option>
+                  <option value="+1">US +1</option>
+                  <option value="+44">UK +44</option>
+                  <option value="+61">AU +61</option>
                 </select>
                 <input type="tel" name="phone" inputmode="numeric" placeholder="Phone number" minlength="8" maxlength="14" required />
               </div>
             </label>
           </div>
 
-          <button id="formSubmitButton" class="cta-button" type="submit">Submit & Continue</button>
+          <button id="formSubmitButton" class="cta-button" type="submit">Submit and Continue</button>
           <p id="formStatus" class="status-text" aria-live="polite"></p>
         </form>
+      </section>
+    </div>
+
+    <div id="upsellModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-overlay" data-close-modal="upsellModal"></div>
+      <section class="modal-card upsell-card" role="dialog" aria-modal="true" aria-labelledby="upsellHeading">
+        <button type="button" class="modal-close" data-close-modal="upsellModal" aria-label="Close warning">×</button>
+        <h2 id="upsellHeading">Are You Sure You Want To Skip This?</h2>
+        <p class="modal-note">The VIP Bonus Bundle is a one-time launch unlock. If you continue without it, this price may never appear again.</p>
+
+        <div class="upsell-choices">
+          <button id="upsellAccept" class="cta-button">Add VIP Bundle for ₹199</button>
+          <button id="upsellDecline" class="cta-button alt">Continue free registration</button>
+        </div>
+      </section>
+    </div>
+
+    <div id="infoModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-overlay" data-close-modal="infoModal"></div>
+      <section class="modal-card info-card" role="dialog" aria-modal="true" aria-labelledby="infoHeading">
+        <button type="button" class="modal-close" data-close-modal="infoModal" aria-label="Close info">×</button>
+        <h2 id="infoHeading">Why Founders Choose VIP</h2>
+        <p class="modal-note">You get deeper implementation templates, strategic review sessions, and private execution support.</p>
       </section>
     </div>
 
