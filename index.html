@@ -16,7 +16,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Oswald:wght@400;500;600;700&family=Sora:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
@@ -38,7 +38,43 @@
     </div>
 
     <main class="page-shell">
-      <section class="offer-card" id="offerCard">
+      <div class="page-stack">
+        <section class="urgency-panel" aria-label="Limited availability">
+          <h3 class="urgency-headline">
+            <strong>Don't miss this page as you're going to see it </strong><strong class="urgency-headline-accent">ONLY ONCE…!</strong>
+          </h3>
+
+          <div
+            class="sys-alt-progress-container"
+            id="sys-alt-target-element"
+            role="img"
+            aria-label="Sold out progress"
+          >
+            <div class="sys-alt-progress-bar"></div>
+            <div class="sys-alt-progress-text">
+              <div class="sys-alt-sold-out-text">
+                <span class="sys-alt-icon" aria-hidden="true">🔥</span>
+                <span>Sold Out</span>
+              </div>
+              <span id="sys-alt-progress-number">0%</span>
+            </div>
+          </div>
+
+          <div class="steps-bar" aria-label="Purchase steps">
+            <div class="steps-bar-seg steps-bar-seg--done">
+              <span class="steps-bar-check" aria-hidden="true">
+                <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 5.2L4.4 8.6L11 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <span>STEP 1: Completed</span>
+            </div>
+            <div class="steps-bar-seg steps-bar-seg--current">STEP 2: Chance to Upgrade</div>
+            <div class="steps-bar-seg">STEP 3: Everything You Need</div>
+          </div>
+        </section>
+
+        <section class="offer-card" id="offerCard">
         <header class="offer-topbar reveal">
           <p class="vip-chip">VIP Upgrade Window Open</p>
           <button type="button" class="icon-button" id="infoBtn" aria-label="Open bonus details">
@@ -47,36 +83,14 @@
         </header>
 
         <section class="hero reveal">
-          <div class="hero-copy">
+          <div class="hero-copy light-card">
             <h1>AI Freedom Launchpad 2026</h1>
-            <p class="hero-subtext">A cinematic 2-day implementation sprint for builders who want AI leverage, revenue systems, and founder clarity in one focused experience.</p>
-
-            <div class="hero-tags">
-              <span>Live Case Studies</span>
-              <span>Build Along Workflows</span>
-              <span>Founder Q and A</span>
-            </div>
           </div>
 
           <figure class="hero-media tilt-card" data-tilt>
             <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80" alt="AI summit host presenting on stage" />
             <figcaption>Masterclass Preview</figcaption>
           </figure>
-        </section>
-
-        <section class="proof-strip reveal" aria-label="Social proof">
-          <article class="proof-card">
-            <strong data-count="28421" id="countAttendees">0</strong>
-            <span>Founders Registered</span>
-          </article>
-          <article class="proof-card">
-            <strong data-count="96" id="countSatisfaction">0</strong>
-            <span>Percent Satisfaction</span>
-          </article>
-          <article class="proof-card">
-            <strong data-count="7" id="countCountries">0</strong>
-            <span>Countries Streaming Live</span>
-          </article>
         </section>
 
         <div class="stepper reveal" aria-hidden="true">
@@ -87,11 +101,54 @@
           <span class="step-label">Details</span>
         </div>
 
-        <div class="expiry-banner reveal" aria-live="polite">
-          <span class="dot" aria-hidden="true"></span>
-          <span>Priority pricing expires in</span>
-          <strong id="offerTimer">14:20</strong>
-        </div>
+        <section class="vip-compare-section reveal" aria-labelledby="vipCompareTitle">
+          <div class="vip-compare-inner">
+            <div class="vip-compare-callout">
+              <p class="vip-compare-callout-main">
+                Instead of relying on memory or rushed notes, you can unlock all 3 bonuses so you can come back to it anytime.
+              </p>
+              <ul class="vip-compare-callout-list">
+                <li>
+                  <span class="vip-compare-x" aria-hidden="true">✕</span>
+                  <span>No <strong>pressure</strong> during the live session.</span>
+                </li>
+                <li>
+                  <span class="vip-compare-x" aria-hidden="true">✕</span>
+                  <span>No fear of <strong>missing steps</strong>.</span>
+                </li>
+                <li>
+                  <span class="vip-compare-x" aria-hidden="true">✕</span>
+                  <span>No &ldquo;<strong>what was that tool again?</strong>&rdquo; later.</span>
+                </li>
+              </ul>
+            </div>
+
+            <p class="vip-compare-script-title" id="vipCompareTitle">With VIP upgrade vs without VIP upgrade</p>
+
+            <div class="vip-compare-columns">
+              <article class="vip-compare-card vip-compare-card--with">
+                <h3 class="vip-compare-card-heading">With VIP access</h3>
+                <ul class="vip-compare-card-list">
+                  <li>Ready-to-use frameworks you can implement immediately.</li>
+                  <li>Turn AI into revenue with clear, repeatable action paths.</li>
+                  <li>Build reusable systems instead of one-off notes.</li>
+                  <li>Revisit every tool, prompt, and template anytime.</li>
+                  <li>Step-by-step clarity so nothing slips through the cracks.</li>
+                </ul>
+              </article>
+              <article class="vip-compare-card vip-compare-card--without">
+                <h3 class="vip-compare-card-heading">Without VIP access</h3>
+                <ul class="vip-compare-card-list">
+                  <li>Struggle to apply ideas after the session ends.</li>
+                  <li>Spend hours searching for clarity on your own.</li>
+                  <li>Inconsistent implementation without a proven system.</li>
+                  <li>Rely on memory and rushed notes that fade fast.</li>
+                  <li>Keep asking yourself what that tool was called again.</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </section>
 
         <section class="offers reveal" aria-label="Offer options">
           <h2>Your Order</h2>
@@ -99,8 +156,7 @@
           <label class="offer-row free-row">
             <input type="checkbox" checked disabled />
             <span class="offer-copy">
-              <span class="offer-title">Summit Access Pass</span>
-              <span class="offer-desc">Live event access, recordings of main sessions, and implementation worksheets.</span>
+              <span class="offer-title">Join without offer</span>
             </span>
             <span class="offer-price-block">
               <span class="offer-price free">FREE</span>
@@ -111,22 +167,25 @@
           <section class="offer-row vip-row" aria-label="VIP bonus bundle">
             <div class="vip-row-head">
               <span class="offer-copy">
-                <span class="offer-title">VIP Bonus Bundle</span>
-                <span class="offer-desc">One click unlock for all bonus assets below at a single launch price.</span>
+                <span class="offer-title">VIP Bonus — 3 exclusive resources</span>
               </span>
 
               <label class="bundle-toggle">
-                <input type="checkbox" class="bump-offer" data-id="vip-bundle" data-price="199" />
-                <span>Add bundle</span>
+                <input type="checkbox" class="bump-offer" data-id="vip-bundle" data-price="299" />
+                <span>Add VIP bonus</span>
               </label>
 
               <span class="offer-price-block">
-                <span class="offer-price">₹199</span>
+                <span class="offer-price">₹299</span>
                 <span class="old-price">₹999</span>
               </span>
             </div>
 
-            <div class="benefits-grid" id="vipBenefits"></div>
+            <p class="vip-bonus-lead reveal">
+              Here's what you get when you <strong class="vip-bonus-lead-gold">upgrade to VIP bonus NOW!</strong>
+            </p>
+
+            <div class="benefits-grid vip-bonus-grid" id="vipBenefits"></div>
           </section>
         </section>
 
@@ -135,26 +194,9 @@
           <strong id="totalAmount">₹0</strong>
         </section>
 
-        <section class="lux-section reveal" aria-label="What you unlock">
-          <h2>What You Unlock Tonight</h2>
-          <div class="lux-grid">
-            <article class="lux-card">
-              <h3>Launch Sprint Blueprint</h3>
-              <p>A condensed roadmap to go from scattered ideas to a live AI offer in days, not months.</p>
-            </article>
-            <article class="lux-card">
-              <h3>Audience Monetization Framework</h3>
-              <p>Positioning and conversion sequence built for creators, coaches, and solo operators.</p>
-            </article>
-            <article class="lux-card">
-              <h3>Automation Stack Recipes</h3>
-              <p>Battle-tested prompt packs, tool chains, and execution checklists from real campaigns.</p>
-            </article>
-          </div>
-        </section>
-
         <button id="primaryCta" class="cta-button magnetic reveal" type="button">Join for free</button>
       </section>
+      </div>
     </main>
 
     <div id="formModal" class="modal hidden" aria-hidden="true">
@@ -162,7 +204,6 @@
       <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalHeading">
         <button type="button" class="modal-close" data-close-modal="formModal" aria-label="Close form">×</button>
         <h2 id="modalHeading">Reserve Your Free Spot</h2>
-        <p class="modal-note">Fill this in and we will send your private access details instantly.</p>
 
         <form id="leadForm" novalidate>
           <div class="form-grid">
@@ -225,10 +266,9 @@
       <section class="modal-card upsell-card" role="dialog" aria-modal="true" aria-labelledby="upsellHeading">
         <button type="button" class="modal-close" data-close-modal="upsellModal" aria-label="Close warning">×</button>
         <h2 id="upsellHeading">Are You Sure You Want To Skip This?</h2>
-        <p class="modal-note">The VIP Bonus Bundle is a one-time launch unlock. If you continue without it, this price may never appear again.</p>
 
         <div class="upsell-choices">
-          <button id="upsellAccept" class="cta-button">Add VIP Bundle for ₹199</button>
+          <button id="upsellAccept" class="cta-button">Add VIP bonus for ₹299</button>
           <button id="upsellDecline" class="cta-button alt">Continue free registration</button>
         </div>
       </section>
@@ -239,9 +279,20 @@
       <section class="modal-card info-card" role="dialog" aria-modal="true" aria-labelledby="infoHeading">
         <button type="button" class="modal-close" data-close-modal="infoModal" aria-label="Close info">×</button>
         <h2 id="infoHeading">Why Founders Choose VIP</h2>
-        <p class="modal-note">You get deeper implementation templates, strategic review sessions, and private execution support.</p>
       </section>
     </div>
+
+    <footer class="site-sticky-footer" aria-label="Offer countdown and action">
+      <div class="site-sticky-footer-inner">
+        <p class="site-sticky-footer-timer">
+          <span class="site-sticky-footer-timer-label">Offer ends in:</span>
+          <strong class="site-sticky-footer-timer-value" id="offerTimer">14:20</strong>
+        </p>
+        <button type="button" class="cta-button cta-button--sticky magnetic" id="primaryCtaSticky">
+          Join for free
+        </button>
+      </div>
+    </footer>
 
     <script src="script.js"></script>
   </body>

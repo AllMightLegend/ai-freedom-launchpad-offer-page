@@ -19,34 +19,43 @@ const DEFAULT_OFFER_DURATION_SECONDS = 14 * 60 + 20;
 
 const DEFAULT_VIP_BENEFITS = [
   {
-    id: "vip-days",
-    title: "2 Special VIP Days",
-    description: "Private implementation days with direct strategy walkthroughs.",
-    image: "https://images.unsplash.com/photo-1560439514-e960a3ef5019?auto=format&fit=crop&w=1200&q=85"
+    id: "prompt-profit",
+    bonusNum: 1,
+    title: "Prompt to Profit Signature Method",
+    bullets: [
+      "Turn AI into income",
+      "Package your skills",
+      "Reduce work time",
+      "Build repeatable AI income systems",
+      "Position yourself as an AI-powered authority"
+    ],
+    image: "https://i.ibb.co/99qqYWTG/69707e5512863-4.png"
   },
   {
-    id: "recordings",
-    title: "Lifetime Recordings",
-    description: "Rewatch all premium sessions and execution sequences anytime.",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=85"
+    id: "chatgpt-50",
+    bonusNum: 2,
+    title: "50 Ways to Use ChatGPT in Business",
+    bullets: [
+      "Instantly apply AI across 50 scenarios",
+      "Gain a competitive edge",
+      "Increase revenue",
+      "Eliminate trial-and-error",
+      "Build a lean, AI-driven business engine"
+    ],
+    image: "https://i.ibb.co/Xxgt5x0H/69707f0333bd9-5.png"
   },
   {
-    id: "zoom-room",
-    title: "Zoom Room Access",
-    description: "Join intimate rooms for expert Q and A with direct feedback.",
-    image: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&q=85"
-  },
-  {
-    id: "strategy-session",
-    title: "1-on-1 Strategy Session",
-    description: "A tactical plan tuned to your current business stage.",
-    image: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1200&q=85"
-  },
-  {
-    id: "ai-playbooks",
-    title: "AI Playbook Bundle",
-    description: "Ready-to-run systems and prompts to accelerate execution.",
-    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1200&q=85"
+    id: "authority-kit",
+    bonusNum: 3,
+    title: "Authority Builder Kit (Tailored to Niche)",
+    bullets: [
+      "Position yourself as the go-to expert",
+      "Create high-impact content",
+      "Build a personal brand identity",
+      "Build trust faster",
+      "Increase your perceived value"
+    ],
+    image: "https://i.ibb.co/VpNQnLqw/6995d4fba848f-6.png"
   }
 ];
 
@@ -65,6 +74,7 @@ const OFFER_DURATION_SECONDS = Number(WEBINAR_CONFIG.offerDurationSeconds || DEF
 
 const totalAmountEl = document.getElementById("totalAmount");
 const primaryCta = document.getElementById("primaryCta");
+const primaryCtaSticky = document.getElementById("primaryCtaSticky");
 const offerTimer = document.getElementById("offerTimer");
 const vipBenefitsGrid = document.getElementById("vipBenefits");
 const leadForm = document.getElementById("leadForm");
@@ -104,10 +114,12 @@ function getBundleSelected() {
 }
 
 function getSelectedOffers() {
-  if (!getBundleSelected()) {
+  const input = getBumpInput();
+  if (!input || !input.checked) {
     return [];
   }
-  return [{ id: "vip-bundle", price: 199 }];
+  const price = Number(input.dataset.price);
+  return [{ id: "vip-bundle", price: Number.isFinite(price) && price > 0 ? price : 299 }];
 }
 
 function getOfferStateKey(offers) {
@@ -117,27 +129,56 @@ function getOfferStateKey(offers) {
     .join("+");
 }
 
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function safeImageUrl(url) {
+  const trimmed = String(url || "").trim();
+  if (!/^https:\/\//i.test(trimmed)) {
+    return "";
+  }
+  return trimmed.replace(/"/g, "");
+}
+
 function renderVipBenefits() {
   if (!vipBenefitsGrid) {
     return;
   }
 
-  vipBenefitsGrid.innerHTML = VIP_BENEFITS.map((benefit) => {
+  vipBenefitsGrid.innerHTML = VIP_BENEFITS.map((benefit, index) => {
     const id = String(benefit.id || "").trim();
     const title = String(benefit.title || "VIP Benefit");
-    const description = String(benefit.description || "");
-    const image = String(benefit.image || "");
+    const image = safeImageUrl(benefit.image);
+    const bonusNum = Number(benefit.bonusNum) > 0 ? Number(benefit.bonusNum) : index + 1;
+    const bullets = Array.isArray(benefit.bullets) ? benefit.bullets : [];
+    const bulletItems = bullets
+      .map((line) => {
+        const text = escapeHtml(String(line));
+        return `<li><span class="vip-bonus-check" aria-hidden="true"><svg width="11" height="9" viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 4.5L4 7.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>${text}</li>`;
+      })
+      .join("");
 
     if (!id) {
       return "";
     }
 
     return `
-      <article class="benefit-card reveal" data-benefit-card="${id}">
-        <img src="${image}" alt="${title}" loading="lazy" />
-        <div class="benefit-copy">
-          <h3>${title}</h3>
-          <p>${description}</p>
+      <article class="vip-bonus-card benefit-card reveal" data-benefit-card="${escapeHtml(id)}">
+        <div class="vip-bonus-card-inner">
+          <div class="vip-bonus-card-top">
+            <span class="vip-bonus-script-label">Bonus</span>
+            <span class="vip-bonus-num-badge">${bonusNum}</span>
+          </div>
+          <h3 class="vip-bonus-card-title">${escapeHtml(title)}</h3>
+          <div class="vip-bonus-visual">
+            <img src="${image}" alt="${escapeHtml(title)}" loading="lazy" />
+          </div>
+          <ul class="vip-bonus-points">${bulletItems}</ul>
         </div>
       </article>
     `;
@@ -161,17 +202,25 @@ function updateSummary() {
 
   syncSelectedBenefitStyles();
 
-  if (!primaryCta) {
+  const ctas = [primaryCta, primaryCtaSticky].filter(Boolean);
+  if (!ctas.length) {
     return;
   }
 
+  let label;
+  let mode;
   if (total === 0) {
-    primaryCta.textContent = "Join for free";
-    primaryCta.dataset.mode = "free";
+    label = "Join for free";
+    mode = "free";
   } else {
-    primaryCta.textContent = `Unlock VIP Bundle for ₹${total}`;
-    primaryCta.dataset.mode = "paid";
+    label = `Unlock VIP bonus for ₹${total}`;
+    mode = "paid";
   }
+
+  ctas.forEach((btn) => {
+    btn.textContent = label;
+    btn.dataset.mode = mode;
+  });
 }
 
 function openModal(modalEl) {
@@ -314,8 +363,20 @@ async function handleFormSubmit(event) {
 }
 
 function initEventHandlers() {
+  const ctaClick = (event) => {
+    const target = event.currentTarget;
+    if (target instanceof HTMLButtonElement && target.disabled) {
+      return;
+    }
+    handleCtaClick();
+  };
+
   if (primaryCta) {
-    primaryCta.addEventListener("click", handleCtaClick);
+    primaryCta.addEventListener("click", ctaClick);
+  }
+
+  if (primaryCtaSticky) {
+    primaryCtaSticky.addEventListener("click", ctaClick);
   }
 
   if (leadForm) {
@@ -435,34 +496,6 @@ function initCursorGlow() {
   });
 }
 
-function initCounters() {
-  const counters = document.querySelectorAll("[data-count]");
-  if (!counters.length) {
-    return;
-  }
-
-  const animateCounter = (el) => {
-    const target = Number(el.getAttribute("data-count") || 0);
-    const suffix = target >= 1000 ? "+" : "%";
-    const showSuffix = el.id === "countSatisfaction" || el.id === "countAttendees";
-    let current = 0;
-    const step = Math.max(1, Math.ceil(target / 60));
-
-    const tick = () => {
-      current = Math.min(target, current + step);
-      const text = current.toLocaleString("en-IN");
-      el.textContent = showSuffix ? `${text}${suffix}` : text;
-      if (current < target) {
-        window.requestAnimationFrame(tick);
-      }
-    };
-
-    tick();
-  };
-
-  counters.forEach((counter) => animateCounter(counter));
-}
-
 function initTiltCards() {
   document.querySelectorAll("[data-tilt]").forEach((card) => {
     card.addEventListener("mousemove", (event) => {
@@ -479,20 +512,17 @@ function initTiltCards() {
 }
 
 function initMagneticButton() {
-  const button = document.querySelector(".magnetic");
-  if (!button) {
-    return;
-  }
+  document.querySelectorAll(".magnetic").forEach((button) => {
+    button.addEventListener("mousemove", (event) => {
+      const bounds = button.getBoundingClientRect();
+      const x = event.clientX - bounds.left - bounds.width / 2;
+      const y = event.clientY - bounds.top - bounds.height / 2;
+      button.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
+    });
 
-  button.addEventListener("mousemove", (event) => {
-    const bounds = button.getBoundingClientRect();
-    const x = event.clientX - bounds.left - bounds.width / 2;
-    const y = event.clientY - bounds.top - bounds.height / 2;
-    button.style.transform = `translate(${x * 0.08}px, ${y * 0.08}px)`;
-  });
-
-  button.addEventListener("mouseleave", () => {
-    button.style.transform = "translate(0, 0)";
+    button.addEventListener("mouseleave", () => {
+      button.style.transform = "translate(0, 0)";
+    });
   });
 }
 
@@ -528,16 +558,16 @@ function initGsap() {
   });
 
   window.gsap.fromTo(
-    ".lux-card",
-    { opacity: 0, y: 20, scale: 0.96 },
+    ".vip-compare-card",
+    { opacity: 0, y: 20, scale: 0.98 },
     {
       opacity: 1,
       y: 0,
       scale: 1,
       duration: 0.7,
-      stagger: 0.08,
+      stagger: 0.1,
       scrollTrigger: {
-        trigger: ".lux-section",
+        trigger: ".vip-compare-section",
         start: "top 82%"
       }
     }
@@ -563,6 +593,62 @@ function initGsap() {
   }
 }
 
+function initSysAltProgress() {
+  const finalValue = 82.22;
+  const duration = 4000;
+  const numberEl = document.getElementById("sys-alt-progress-number");
+  const target = document.getElementById("sys-alt-target-element");
+  const bar = target ? target.querySelector(".sys-alt-progress-bar") : null;
+
+  if (!numberEl || !bar) {
+    return;
+  }
+
+  let hasStarted = false;
+
+  function animateNumber() {
+    const startTime = performance.now();
+
+    function updateNumber(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const currentValue = (progress * finalValue).toFixed(2);
+      numberEl.textContent = `${currentValue}%`;
+
+      if (progress < 1) {
+        requestAnimationFrame(updateNumber);
+      }
+    }
+
+    requestAnimationFrame(updateNumber);
+  }
+
+  function startAnimation() {
+    if (hasStarted) {
+      return;
+    }
+    hasStarted = true;
+    bar.classList.add("sys-alt-start-animation");
+    animateNumber();
+  }
+
+  window.setTimeout(startAnimation, 300);
+
+  if ("IntersectionObserver" in window && target) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startAnimation();
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(target);
+  }
+}
+
 function init() {
   renderVipBenefits();
   updateSummary();
@@ -573,8 +659,8 @@ function init() {
   initCursorGlow();
   initTiltCards();
   initMagneticButton();
-  initCounters();
   initGsap();
+  initSysAltProgress();
 }
 
 init();
