@@ -81,10 +81,8 @@ const leadForm = document.getElementById("leadForm");
 const formStatus = document.getElementById("formStatus");
 const formSubmitButton = document.getElementById("formSubmitButton");
 
-const infoBtn = document.getElementById("infoBtn");
 const formModal = document.getElementById("formModal");
 const upsellModal = document.getElementById("upsellModal");
-const infoModal = document.getElementById("infoModal");
 const upsellAccept = document.getElementById("upsellAccept");
 const upsellDecline = document.getElementById("upsellDecline");
 const scrollProgressBar = document.getElementById("scrollProgressBar");
@@ -390,10 +388,6 @@ function initEventHandlers() {
     }
   });
 
-  if (infoBtn) {
-    infoBtn.addEventListener("click", () => openModal(infoModal));
-  }
-
   if (upsellAccept) {
     upsellAccept.addEventListener("click", () => {
       const bundleInput = getBumpInput();
@@ -432,8 +426,6 @@ function initEventHandlers() {
     } else if (closeTarget === "upsellModal") {
       closeModal(upsellModal);
       pendingFreeCheckout = false;
-    } else if (closeTarget === "infoModal") {
-      closeModal(infoModal);
     }
   });
 
@@ -443,7 +435,6 @@ function initEventHandlers() {
     }
     closeModal(formModal);
     closeModal(upsellModal);
-    closeModal(infoModal);
     pendingFreeCheckout = false;
   });
 
