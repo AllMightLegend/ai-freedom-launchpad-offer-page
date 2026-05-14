@@ -307,6 +307,26 @@ async function submitToGoogleSheet(payload) {
   });
 }
 
+function navigateToRazorpayCheckout() {
+  const offers = getSelectedOffers();
+  const total = offers.reduce((sum, offer) => sum + offer.price, 0);
+  if (total === 0) {
+    return false;
+  }
+
+  const key = getOfferStateKey(offers);
+  const fallbackLink = WEBINAR_CONFIG.defaultRazorpayLink || WEBINAR_CONFIG.razorpayLink || "";
+  const targetLink = [RAZORPAY_LINKS[key], fallbackLink].find((link) => !isPlaceholderValue(link));
+
+  if (isPlaceholderValue(targetLink)) {
+    alert("No Razorpay link is configured for the VIP bundle yet.");
+    return false;
+  }
+
+  window.location.href = targetLink;
+  return true;
+}
+
 function handleCtaClick() {
   const offers = getSelectedOffers();
   const total = offers.reduce((sum, offer) => sum + offer.price, 0);
@@ -317,16 +337,7 @@ function handleCtaClick() {
     return;
   }
 
-  const key = getOfferStateKey(offers);
-  const fallbackLink = WEBINAR_CONFIG.defaultRazorpayLink || WEBINAR_CONFIG.razorpayLink || "";
-  const targetLink = [RAZORPAY_LINKS[key], fallbackLink].find((link) => !isPlaceholderValue(link));
-
-  if (isPlaceholderValue(targetLink)) {
-    alert("No Razorpay link is configured for the VIP bundle yet.");
-    return;
-  }
-
-  window.location.href = targetLink;
+  navigateToRazorpayCheckout();
 }
 
 async function handleFormSubmit(event) {
@@ -394,9 +405,18 @@ function initEventHandlers() {
       if (bundleInput instanceof HTMLInputElement) {
         bundleInput.checked = true;
       }
-      closeModal(upsellModal);
       pendingFreeCheckout = false;
       updateSummary();
+
+      if (!navigateToRazorpayCheckout()) {
+        if (bundleInput instanceof HTMLInputElement) {
+          bundleInput.checked = false;
+        }
+        updateSummary();
+        return;
+      }
+
+      closeModal(upsellModal);
     });
   }
 
