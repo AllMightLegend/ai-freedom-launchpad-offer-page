@@ -102,11 +102,11 @@ h3 {
   object-fit: cover;
   object-position: top center;
   display: block;
-  margin: 0 0 18px 0; /* space below image */
+  margin: 0 0 8px 0; /* reduced space below image */
   border-radius: 12px;
 }
 
-.before-after-media.full-bleed { padding-top: 20px; padding-bottom: 0; }
+.before-after-media.full-bleed { padding-top: 12px; padding-bottom: 0; }
 
 .mesh-a {
   background: radial-gradient(circle, #c5d4eb 0%, rgba(197, 212, 235, 0) 70%);
@@ -557,7 +557,7 @@ h3 {
 }
 .before-after-copy {
   text-align: center;
-  padding: 12px 18px 18px;
+  padding: 6px 18px 12px; /* tightened top padding */
 }
 .before-after-copy h2 {
   margin: 0 0 6px;
