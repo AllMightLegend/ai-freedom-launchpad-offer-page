@@ -92,7 +92,29 @@ h3 {
   border-radius: 50%;
   filter: blur(90px);
   opacity: 0.055;
-  animation: drift 22s ease-in-out infinite alternate;
+  /* default: fit within content container for small and mid screens */
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  margin: 0 auto;
+  border-radius: 12px;
+}
+
+/* Always fit image within content container to avoid cropping */
+.before-after-media.full-bleed img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: none;
+  object-position: center top;
+  margin: 0;
+  border-radius: 12px;
+}
+
+.before-after-media.full-bleed { padding-top: 20px; }
 }
 
 .mesh-a {
