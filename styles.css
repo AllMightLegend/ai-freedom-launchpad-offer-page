@@ -1187,6 +1187,114 @@ h3 {
   }
 }
 
+/* Responsive adjustments for mobile and smaller screens */
+@media (max-width: 900px) {
+  .page-stack {
+    padding: 14px 12px 20px;
+  }
+
+  .offer-card {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .hero-copy {
+    order: 2;
+    padding: 14px;
+  }
+
+  .hero-media {
+    order: 1;
+    border-radius: 10px;
+    border-width: 0;
+  }
+
+  .hero-media img {
+    min-height: 220px;
+    object-fit: contain;
+  }
+
+  .benefits-grid.vip-bonus-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* VIP row: stack header elements cleanly on small screens */
+  .vip-row-head {
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .bundle-toggle {
+    justify-self: start;
+    order: 2;
+  }
+
+  .offer-price-block {
+    justify-items: end;
+    order: 3;
+  }
+
+  .vip-bonus-lead {
+    margin-top: 8px;
+    font-size: 1rem;
+  }
+
+  .vip-bonus-card.benefit-card {
+    min-height: auto;
+  }
+
+  .vip-bonus-visual {
+    min-height: 120px;
+  }
+
+  /* Force block layout and full width for VIP row elements */
+  .vip-row, .vip-row * { box-sizing: border-box; }
+  .vip-row-head, .offer-price-block, .bundle-toggle, .offer-copy { width: 100%; display: block; }
+  .bundle-toggle { margin-top: 8px; }
+  .benefits-grid.vip-bonus-grid > * { width: 100%; }
+  .vip-bonus-card.benefit-card { display: block; width: 100%; }
+  .vip-bonus-visual img { max-height: 160px; object-fit: contain; }
+  .vip-bonus-card.benefit-card::before { display: none !important; }
+
+  .vip-compare-callout-list {
+    grid-template-columns: 1fr;
+  }
+
+  .vip-compare-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-box {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .page-shell {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0));
+  }
+
+  .site-sticky-footer { position: fixed; }
+
+  .modal-card {
+    width: calc(100% - 32px);
+    max-height: 92vh;
+    overflow: auto;
+    padding: 16px;
+  }
+}
+
+@media (min-width: 901px) and (max-width: 1199px) {
+  .hero-media img { min-height: 300px; }
+  .before-after-media.full-bleed img { height: auto; }
+}
+
 .modal {
   position: fixed;
   inset: 0;
