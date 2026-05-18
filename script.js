@@ -117,7 +117,7 @@ function getSelectedOffers() {
     return [];
   }
   const price = Number(input.dataset.price);
-  return [{ id: "vip-bundle", price: Number.isFinite(price) && price > 0 ? price : 299 }];
+  return [{ id: "vip-bundle", price: Number.isFinite(price) && price > 0 ? price : 199 }];
 }
 
 function getOfferStateKey(offers) {
@@ -323,7 +323,20 @@ function navigateToRazorpayCheckout() {
     return false;
   }
 
-  window.location.href = targetLink;
+  // open checkout in a new tab so the main page remains available
+  try {
+    const newWin = window.open(targetLink, "_blank");
+    if (newWin) {
+      try {
+        newWin.opener = null;
+      } catch (e) {
+        // ignore
+      }
+    }
+  } catch (e) {
+    // fallback to same-tab navigation if popups are blocked
+    window.location.href = targetLink;
+  }
   return true;
 }
 

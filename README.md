@@ -36,7 +36,7 @@ You can also provide runtime overrides in `index.html` before loading `script.js
         title: "2 Special VIP Days",
         description: "Exclusive VIP sessions with direct strategy access.",
         image: "https://your-image-link-1.jpg",
-        price: 299,
+        price: 199,
         oldPrice: 699
       },
       {
