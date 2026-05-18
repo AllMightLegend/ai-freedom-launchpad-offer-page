@@ -563,6 +563,30 @@ h3 {
   margin: 0 0 6px;
   color: var(--navy);
 }
+/* Premium headline styling for VIP lock-in text */
+.premium-headline {
+  font-family: 'Syne', 'Oswald', 'Sora', sans-serif;
+  color: #e4b834;
+  -webkit-text-stroke: 0.6px rgba(0,0,0,0.38);
+  text-shadow: 0 3px 0 rgba(0,0,0,0.45), 0 10px 30px rgba(0,0,0,0.45);
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  line-height: 1.02;
+  padding: 6px 12px;
+  display: inline-block;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+  .premium-headline { font-size: 1.6rem; letter-spacing: 0.4px; }
+}
+
+@media (max-width: 420px) {
+  .premium-headline { font-size: 1.15rem; letter-spacing: 0.2px; }
+}
 .before-after-copy p { margin:0; color:var(--muted); }
 
 @media (max-width: 900px) {
