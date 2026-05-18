@@ -92,30 +92,21 @@ h3 {
   border-radius: 50%;
   filter: blur(90px);
   opacity: 0.055;
-  /* default: fit within content container for small and mid screens */
+}
+
+/* Before/After VIP image — keep it responsive, show top, add spacing below */
+.before-after-media.full-bleed img {
   width: 100%;
   max-width: 100%;
   height: auto;
   object-fit: cover;
   object-position: top center;
   display: block;
-  margin: 0 auto;
+  margin: 0 0 18px 0; /* space below image */
   border-radius: 12px;
 }
 
-/* Always fit image within content container to avoid cropping */
-.before-after-media.full-bleed img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  object-fit: none;
-  object-position: center top;
-  margin: 0;
-  border-radius: 12px;
-}
-
-.before-after-media.full-bleed { padding-top: 20px; }
-}
+.before-after-media.full-bleed { padding-top: 20px; padding-bottom: 0; }
 
 .mesh-a {
   background: radial-gradient(circle, #c5d4eb 0%, rgba(197, 212, 235, 0) 70%);
@@ -529,25 +520,15 @@ h3 {
   border: 0;
   overflow: hidden;
 }
+/* keep space below the preview so sticky footer doesn't overlap */
+/* removed bottom margin to restore original flow */
 .before-after-inner {
   display: grid;
   grid-template-columns: 1fr;
   gap: 12px;
   align-items: center;
 }
-.before-after-media.full-bleed img {
-  width: 100vw;
-  max-width: none;
-  height: 480px;
-  object-fit: cover;
-  /* show the top of the image so banners / title aren't cut off */
-  object-position: top center;
-  display: block;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  border-radius: 0;
-  box-shadow: none;
-}
+/* (removed duplicate full-bleed rule — image is handled above for responsiveness) */
 
 .before-after-media.full-bleed {
   position: relative;
