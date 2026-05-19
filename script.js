@@ -210,7 +210,7 @@ function updateSummary() {
   let label;
   let mode;
   if (total === 0) {
-    label = "Join for free";
+    label = "Reserve Your Seat";
     mode = "free";
   } else {
     label = `Unlock VIP bonus for ₹${total}`;
