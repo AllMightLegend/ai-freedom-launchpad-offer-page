@@ -425,14 +425,16 @@ function initEventHandlers() {
     if (target instanceof HTMLInputElement && target.classList.contains("bump-offer")) {
       updateSummary();
     }
-    // If user toggles the per-CTA auto-add checkboxes, mirror their state to the main bump checkbox
-    if (target === autoAddVipMain || target === autoAddVipSticky) {
-      const bump = getBumpInput();
-      if (bump instanceof HTMLInputElement) {
-        const mainChecked = autoAddVipMain instanceof HTMLInputElement && autoAddVipMain.checked;
-        const stickyChecked = autoAddVipSticky instanceof HTMLInputElement && autoAddVipSticky.checked;
-        const shouldCheck = Boolean(mainChecked || stickyChecked);
-        bump.checked = shouldCheck;
+    // If user toggles any 'Add VIP' checkbox (bundle or per-CTA), keep them all in sync
+    if (target instanceof HTMLInputElement && target.type === 'checkbox') {
+      const isAddVipControl = target.classList.contains('bump-offer') || target.id === 'autoAddVipMain' || target.id === 'autoAddVipSticky';
+      if (isAddVipControl) {
+        const all = Array.from(document.querySelectorAll('.bump-offer, #autoAddVipMain, #autoAddVipSticky'));
+        all.forEach((el) => {
+          if (el instanceof HTMLInputElement) {
+            el.checked = target.checked;
+          }
+        });
         updateSummary();
       }
     }
