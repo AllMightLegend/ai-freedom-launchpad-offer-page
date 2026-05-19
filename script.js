@@ -87,6 +87,8 @@ const upsellAccept = document.getElementById("upsellAccept");
 const upsellDecline = document.getElementById("upsellDecline");
 const scrollProgressBar = document.getElementById("scrollProgressBar");
 const cursorGlow = document.getElementById("cursorGlow");
+const autoAddVipMain = document.getElementById("autoAddVipMain");
+const autoAddVipSticky = document.getElementById("autoAddVipSticky");
 
 let pendingFreeCheckout = false;
 
@@ -390,6 +392,19 @@ function initEventHandlers() {
     if (target instanceof HTMLButtonElement && target.disabled) {
       return;
     }
+    // If an auto-add checkbox exists for this button, sync the bump input before handling
+    const bumpInput = getBumpInput();
+    try {
+      if (target === primaryCta && autoAddVipMain instanceof HTMLInputElement) {
+        if (bumpInput instanceof HTMLInputElement) bumpInput.checked = autoAddVipMain.checked;
+      }
+      if (target === primaryCtaSticky && autoAddVipSticky instanceof HTMLInputElement) {
+        if (bumpInput instanceof HTMLInputElement) bumpInput.checked = autoAddVipSticky.checked;
+      }
+    } catch (e) {
+      // ignore
+    }
+    updateSummary();
     handleCtaClick();
   };
 
@@ -409,6 +424,19 @@ function initEventHandlers() {
     const target = event.target;
     if (target instanceof HTMLInputElement && target.classList.contains("bump-offer")) {
       updateSummary();
+    }
+    // If user toggles the per-CTA auto-add checkboxes, sync the main bump checkbox
+    if (target === autoAddVipMain || target === autoAddVipSticky) {
+      const bump = getBumpInput();
+      if (bump instanceof HTMLInputElement) {
+        // if either auto checkbox is checked, mark the bump on; if both unchecked, leave as-is
+        if ((autoAddVipMain instanceof HTMLInputElement && autoAddVipMain.checked) || (autoAddVipSticky instanceof HTMLInputElement && autoAddVipSticky.checked)) {
+          bump.checked = true;
+        } else {
+          // do not force uncheck here — allow user to manage via main offer checkbox
+        }
+        updateSummary();
+      }
     }
   });
 

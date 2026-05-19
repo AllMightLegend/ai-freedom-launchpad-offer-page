@@ -203,7 +203,13 @@
           <strong id="totalAmount">₹0</strong>
         </section>
 
-        <button id="primaryCta" class="cta-button magnetic reveal" type="button">Join for free</button>
+        <div class="cta-with-toggle">
+          <label class="bump-cta-toggle">
+            <input id="autoAddVipMain" type="checkbox" aria-label="Add VIP bonus" />
+            <span>Add VIP bonus</span>
+          </label>
+          <button id="primaryCta" class="cta-button magnetic reveal" type="button">Join for free</button>
+        </div>
       </section>
       </div>
     </main>
@@ -289,9 +295,15 @@
           <span class="site-sticky-footer-timer-label">Offer ends in:</span>
           <strong class="site-sticky-footer-timer-value" id="offerTimer">14:20</strong>
         </p>
-        <button type="button" class="cta-button cta-button--sticky magnetic" id="primaryCtaSticky">
-          Join for free
-        </button>
+        <div class="cta-with-toggle sticky-cta">
+          <label class="bump-cta-toggle">
+            <input id="autoAddVipSticky" type="checkbox" aria-label="Add VIP bonus" />
+            <span>Add VIP</span>
+          </label>
+          <button type="button" class="cta-button cta-button--sticky magnetic" id="primaryCtaSticky">
+            Join for free
+          </button>
+        </div>
       </div>
     </footer>
 
