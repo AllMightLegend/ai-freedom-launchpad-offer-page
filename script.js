@@ -425,16 +425,14 @@ function initEventHandlers() {
     if (target instanceof HTMLInputElement && target.classList.contains("bump-offer")) {
       updateSummary();
     }
-    // If user toggles the per-CTA auto-add checkboxes, sync the main bump checkbox
+    // If user toggles the per-CTA auto-add checkboxes, mirror their state to the main bump checkbox
     if (target === autoAddVipMain || target === autoAddVipSticky) {
       const bump = getBumpInput();
       if (bump instanceof HTMLInputElement) {
-        // if either auto checkbox is checked, mark the bump on; if both unchecked, leave as-is
-        if ((autoAddVipMain instanceof HTMLInputElement && autoAddVipMain.checked) || (autoAddVipSticky instanceof HTMLInputElement && autoAddVipSticky.checked)) {
-          bump.checked = true;
-        } else {
-          // do not force uncheck here — allow user to manage via main offer checkbox
-        }
+        const mainChecked = autoAddVipMain instanceof HTMLInputElement && autoAddVipMain.checked;
+        const stickyChecked = autoAddVipSticky instanceof HTMLInputElement && autoAddVipSticky.checked;
+        const shouldCheck = Boolean(mainChecked || stickyChecked);
+        bump.checked = shouldCheck;
         updateSummary();
       }
     }
