@@ -1348,6 +1348,23 @@ h3 {
   box-shadow: var(--card-shadow);
 }
 
+/* CTA with toggle styles */
+.cta-with-toggle { display: flex; align-items: center; gap: 12px; }
+.cta-with-toggle .bump-cta-toggle { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--navy); }
+.cta-with-toggle .bump-cta-toggle input { width: 18px; height: 18px; }
+.sticky-cta { justify-content: flex-end; }
+
+@media (max-width: 640px) {
+  .cta-with-toggle { gap: 8px; }
+  .cta-with-toggle .bump-cta-toggle { font-size: 0.85rem; }
+  .sticky-cta { width: 100%; display: flex; justify-content: space-between; align-items: center; }
+}
+
+/* Sticky footer: make the Add VIP label light so it reads on dark background */
+.site-sticky-footer .bump-cta-toggle { color: rgba(255,255,255,0.95); }
+.site-sticky-footer .bump-cta-toggle input { accent-color: var(--gold); filter: none; }
+.site-sticky-footer .bump-cta-toggle span { color: rgba(255,255,255,0.95); }
+
 .modal-card h2 {
   margin: 0;
   font-size: 1.6rem;
@@ -1454,30 +1471,32 @@ select:focus {
 }
 
 @media (max-width: 920px) {
-  .hero {
-    grid-template-columns: 1fr;
-  }
+  .hero { grid-template-columns: 1fr; }
 
-  .benefits-grid.vip-bonus-grid {
-    grid-template-columns: 1fr;
-  }
+  /* Stack benefit cards to single column on small screens */
+  .benefits-grid.vip-bonus-grid { grid-template-columns: 1fr; }
 
-  .vip-compare-columns {
-    grid-template-columns: 1fr;
-  }
+  .vip-compare-columns, .vip-compare-callout-list { grid-template-columns: 1fr; }
 
-  .vip-compare-callout-list {
-    grid-template-columns: 1fr;
-  }
-
+  /* Make the VIP header stack vertically and avoid overlapping badges */
   .vip-row-head {
-    grid-template-columns: 1fr;
-    justify-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+    justify-content: flex-start;
   }
 
-  .offer-price-block {
-    justify-items: start;
-  }
+  .bundle-toggle { justify-self: start; margin-top: 6px; }
+
+  .offer-price-block { justify-items: start; align-self: flex-start; }
+
+  /* Prevent sticky footer overlapping the VIP section */
+  .vip-row { padding-bottom: 56px; }
+
+  /* Ensure VIP cards scale nicely */
+  .vip-bonus-card.benefit-card { width: 100%; }
+  .vip-bonus-visual img { max-height: 160px; width: auto; }
 }
 
 @media (max-width: 640px) {
@@ -1540,4 +1559,26 @@ select:focus {
     grid-column: 2;
     margin-top: 4px;
   }
+}
+
+/* Defensive fixes for VIP cards to avoid collapsed/narrow layouts */
+.benefits-grid.vip-bonus-grid > * {
+  min-width: 0;
+  word-break: break-word;
+}
+
+.vip-bonus-card.benefit-card, .vip-bonus-card.benefit-card * {
+  min-width: 0 !important;
+  transform: none !important;
+  writing-mode: horizontal-tb !important;
+  white-space: normal !important;
+}
+
+/* Make sure the offers area takes full width and cards fill available space */
+.offers .offer-row.vip-row { width: 100%; display: block; padding: 12px 0 0; }
+.benefits-grid.vip-bonus-grid { width: 100%; }
+
+/* larger bottom padding near sticky footer on small screens */
+@media (max-width: 480px) {
+  .vip-row { padding-bottom: 80px; }
 }
